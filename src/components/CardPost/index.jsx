@@ -3,7 +3,7 @@ export const CardPost = ({ post }) => {
         <article>
             <header>
                 <figure>
-                    <Image />
+
                 </figure>
             </header>
             <section>
@@ -11,7 +11,7 @@ export const CardPost = ({ post }) => {
                 texto
             </section>
             <footer>
-                <Avatar />
+
             </footer>
         </article>
     );

@@ -1,4 +1,4 @@
-import { Aside } from '@/components/Aside'
+import Navbar from '@/components/Navbar/content'
 
 export const metadata = {
   title: "Create Next App",
@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR">
       <body>
         < styles />
-        <Aside />
+          <Navbar />
         {children}
       </body>
     </html>
