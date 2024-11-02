@@ -5,7 +5,6 @@ export default function Navbar() {
         <header>
             <div>
                 <Aside />
-
                 <ul>
                     <li>Histórico</li>
                     <li>Adicionar Veículo</li>
