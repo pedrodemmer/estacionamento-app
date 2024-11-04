@@ -3,7 +3,7 @@ import Button from '@/components/Button/content';
 export default function Navbar() {
     return (
         <header className="flex justify-between items-center bg-gray-800 text-white w-full h-auto p-4">
-            <div className="text-2xl font-bold">Logo</div> {/* Logo */}
+            <div className="text-2xl font-bold">Logo</div>
 
             <nav className="flex space-x-4">
                 <Button label="Histórico" />

@@ -15,12 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR">
       <body>
         < styles />
-          <Navbar />
-          <Button /> <br />
-          <Input /> <br />
-          <Dropdown1 /> <br /> <br />
-          <Dropdown2 /> <br /> <br />
-          <Table />
+
         {children}
       </body>
     </html>
