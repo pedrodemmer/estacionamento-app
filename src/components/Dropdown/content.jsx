@@ -4,35 +4,19 @@ import { useState } from 'react';
 import Button from '@/components/Button/content';
 
 export function Dropdown1() {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
-
     return (
-        <div className="relative inline-block text-left">
-            <button 
-                onClick={toggleDropdown}
-                className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-                Opções
-            </button>
-            {isOpen && (
-                <div className="absolute mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-                    <div className="px-4 py-2 border-b border-gray-200">
-                        <p className="text-gray-700 font-medium">Disponibilidade:</p>
-                        <p className="text-green-600">Disponível</p>
-                    </div>
-                    <div className="px-4 py-2 border-b border-gray-200">
-                        <p className="text-gray-700 font-medium">Endereço:</p>
-                        <p>Rua Fulano de Tal, 295</p>
-                    </div>
-                    <div className="px-4 py-2">
-                        <Button label='Tarifas e Periodos' />
-                    </div>
-                </div>
-            )}
+        <div className="absolute mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+            <div className="px-4 py-2 border-b border-gray-200">
+                <p className="text-gray-700 font-medium">Disponibilidade:</p>
+                <p className="text-green-600">Disponível</p>
+            </div>
+            <div className="px-4 py-2 border-b border-gray-200">
+                <p className="text-gray-700 font-medium">Endereço:</p>
+                <p>Rua Fulano de Tal, 295</p>
+            </div>
+            <div className="px-4 py-2">
+                <Button label="Tarifas e Periodos" />
+            </div>
         </div>
     );
 }

@@ -1,41 +1,57 @@
 "use client"
-import { useState } from 'react';
-import Button from '@/components/Button/content';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHistory, faCar, faCarSide, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navbar() {
-    const [isOpen, setIsOpen] = useState(false);
-
     return (
-        <header className="flex justify-between items-center bg-gray-800 text-white w-full h-auto p-4">
-            <div className="text-2xl font-bold">Logo</div>
+        <div>
 
-            <button 
-                className="sm:hidden text-white focus:outline-none"
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                <svg 
-                    className="w-6 h-6" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24" 
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth="2" 
-                        d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} 
-                    />
-                </svg>
-            </button>
+            <header className="bg-gray-800 text-white w-full h-auto p-4 relative sm:block hidden">
+                {/* Versão Desktop - Logo e Menu */}
+                <div className="flex justify-between items-center">
+                    {/* Logo */}
+                    <div className="text-2xl font-bold">Logo</div>
 
-            <nav className={`flex-col sm:flex-row sm:flex space-x-4 items-center ${isOpen ? 'flex' : 'hidden'} sm:block`}>
-                <Button label="Histórico" />
-                <Button label="Adicionar Veículo" />
-                <Button label="Meus Veículos" />
-                <Button label="Login" />
-                <Button label="Registro" />
+                    {/* Menu de navegação para Desktop */}
+                    <nav className="flex space-x-4 items-center">
+                        <button className="flex items-center space-x-2 text-white">
+                            <FontAwesomeIcon icon={faHistory} />
+                            <span>Histórico</span>
+                        </button>
+                        <button className="flex items-center space-x-2 text-white">
+                            <FontAwesomeIcon icon={faCar} />
+                            <span>Adicionar Veículo</span>
+                        </button>
+                        <button className="flex items-center space-x-2 text-white">
+                            <FontAwesomeIcon icon={faCarSide} />
+                            <span>Meus Veículos</span>
+                        </button>
+                        <button className="flex items-center space-x-2 text-white">
+                            <FontAwesomeIcon icon={faSignInAlt} />
+                            <span>Sair</span>
+                        </button>
+                    </nav>
+                </div>
+            </header>
+
+            <nav className="sm:hidden fixed bottom-0 left-0 w-full bg-gray-800 text-white flex justify-around py-3 shadow-lg z-50">
+                <button className="flex flex-col items-center space-y-1 text-white focus:outline-none">
+                    <FontAwesomeIcon icon={faHistory} className="w-6 h-6" />
+                    <span className="text-xs">Histórico</span>
+                </button>
+                <button className="flex flex-col items-center space-y-1 text-white focus:outline-none">
+                    <FontAwesomeIcon icon={faCar} className="w-6 h-6" />
+                    <span className="text-xs">Adicionar</span>
+                </button>
+                <button className="flex flex-col items-center space-y-1 text-white focus:outline-none">
+                    <FontAwesomeIcon icon={faCarSide} className="w-6 h-6" />
+                    <span className="text-xs">Veículos</span>
+                </button>
+                <button className="flex flex-col items-center space-y-1 text-white focus:outline-none">
+                    <FontAwesomeIcon icon={faSignInAlt} className="w-6 h-6" />
+                    <span className="text-xs">Sair</span>
+                </button>
             </nav>
-        </header>
+        </div>
     );
 }
