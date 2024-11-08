@@ -27,14 +27,7 @@ export default function Home() {
           Estacionado no N° 48 | 00:00 Minutos Restantes
         </p>
 
-        <div className="mb-6">
-          {/* Dropdown que aparece acima do input */}
-          {isDropdownVisible && (
-            <div className="w-full mb-2 z-10">
-              <Dropdown1 />
-            </div>
-          )}
-
+        <div className="mb-6 relative">
           <label htmlFor="inputNumber" className="block text-gray-300 text-lg font-semibold mb-2">
             Digite um número:
           </label>
@@ -43,9 +36,16 @@ export default function Home() {
             id="inputNumber"
             value={number}
             onChange={handleInputChange}
-            onKeyDown={handleKeyPress}
+            onKeyDown={handleKeyPress} 
             className="px-4 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
           />
+
+          {/* Dropdown que aparece abaixo do input, centralizado */}
+          {isDropdownVisible && (
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-full max-w-xs mt-2 z-10">
+              <Dropdown1 />
+            </div>
+          )}
         </div>
       </div>
     </div>
