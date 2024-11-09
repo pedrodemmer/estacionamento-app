@@ -15,7 +15,7 @@ export function Dropdown1() {
                 <p>Rua Fulano de Tal, 295</p>
             </div>
             <div className="px-4 py-2">
-                <Button label="Tarifas e Periodos" />
+                <a href="/vaga"><Button label="Tarifas e Periodos" /></a>
             </div>
         </div>
     );
