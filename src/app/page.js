@@ -1,6 +1,8 @@
 "use client"
 import { useState } from 'react';
 import { Dropdown1 } from '@/components/Dropdown/content';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default function Home() {
   const [number, setNumber] = useState('');
