@@ -18,3 +18,17 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Erro ao inicializar o banco de dados' }, { status: 500 });
   }
 }
+
+/*
+fetch('/api/setup', {
+  method: 'POST',
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Erro ao inicializar o banco de dados');
+    }
+    return response.json();
+  })
+  .then(data => console.log('Resposta:', data))
+  .catch(error => console.error('Erro:', error));
+*/
