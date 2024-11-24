@@ -40,7 +40,6 @@ export default function Home() {
             className="px-4 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
           />
 
-          {/* Dropdown que aparece abaixo do input, centralizado */}
           {isDropdownVisible && (
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-full max-w-xs mt-2 z-10">
               <Dropdown1 />

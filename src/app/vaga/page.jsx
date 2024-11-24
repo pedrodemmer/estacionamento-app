@@ -10,7 +10,7 @@ export default function vaga() {
                 <li className="text-lg font-semibold">R$ 00.00</li>
             </ul>
 
-            <Button label="Confirmar" />
+            <Button label="Confirmar" color="bg-green-600" />
         </div>
     );
 }
