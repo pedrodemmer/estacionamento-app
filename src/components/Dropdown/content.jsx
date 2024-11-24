@@ -3,23 +3,30 @@
 import { useState } from 'react';
 import Button from '@/components/Button/content';
 
-export function Dropdown1() {
+export function Dropdown1({ disponibilidade, endereco }) {
     return (
-        <div className="absolute mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-            <div className="px-4 py-2 border-b border-gray-200">
-                <p className="text-gray-700 font-medium">Disponibilidade:</p>
-                <p className="text-green-600">Disponível</p>
-            </div>
-            <div className="px-4 py-2 border-b border-gray-200">
-                <p className="text-gray-700 font-medium">Endereço:</p>
-                <p>Rua Fulano de Tal, 295</p>
-            </div>
-            <div className="px-4 py-2">
-                <a href="/vaga"><Button label="Tarifas e Periodos" /></a>
-            </div>
+      <div className="absolute mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+        <div className="px-4 py-2 border-b border-gray-200">
+          <p className="text-gray-700 font-medium">Disponibilidade:</p>
+          <p className={disponibilidade === "Disponível" ? "text-green-600" : "text-red-600"}>
+            {disponibilidade}
+          </p>
         </div>
+        <div className="px-4 py-2 border-b border-gray-200">
+          <p className="text-gray-700 font-medium">Endereço:</p>
+          <p>{endereco}</p>
+        </div>
+        <div className="px-4 py-2">
+          <a href="/vaga">
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600">
+              Tarifas e Períodos
+            </button>
+          </a>
+        </div>
+      </div>
     );
-}
+  }
+  
 
 export function Dropdown2() {
     const [isOpen, setIsOpen] = useState(false);

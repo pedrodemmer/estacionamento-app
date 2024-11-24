@@ -10,7 +10,7 @@ export default function Navbar() {
                 {/* Versão Desktop - Logo e Menu */}
                 <div className="flex justify-between items-center">
                     {/* Logo */}
-                    <div className="text-2xl font-bold">Logo</div>
+                    <a href="http://localhost:3000"><div className="text-2xl font-bold">Logo</div></a>
 
                     {/* Menu de navegação para Desktop */}
                     <nav className="flex space-x-4 items-center">
