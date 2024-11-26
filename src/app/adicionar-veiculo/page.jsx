@@ -9,7 +9,7 @@ export default function AddVehicle() {
     <div className="min-h-screen flex justify-center items-center bg-gray-100 px-4 sm:px-0">
       <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md text-center">
         <div className="flex items-baseline justify-center mb-6">
-          <BackButton href="/" />
+          <BackButton href="/veiculos" />
           <h1 className="text-3xl font-bold text-white ml-4">
             Adicionar Veículo
           </h1>
