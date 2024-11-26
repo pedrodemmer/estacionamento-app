@@ -33,38 +33,44 @@ export default function HistoricoPage() {
 
     return (
         <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
-            <div className="w-full max-w-4xl bg-gray-800 shadow-lg rounded-lg p-6 overflow-x-auto">
-                <div className="flex items-baseline justify-center mb-6">
-                    <h1 className="text-2xl font-bold text-white">Histórico</h1>
+            <div className="w-full max-w-full bg-gray-800 shadow-lg rounded-lg p-4 sm:p-6">
+                <div className="flex items-baseline justify-center mb-4 sm:mb-6">
+                    <h1 className="text-xl sm:text-2xl font-bold text-white">Histórico</h1>
                 </div>
-                <table className="table-auto bg-white w-full border-collapse">
-                    <thead>
-                        <tr className="bg-gray-200">
-                            <th className="p-2 text-left text-gray-700">N° Vaga</th>
-                            <th className="p-2 text-left text-gray-700">Apelido</th>
-                            <th className="p-2 text-left text-gray-700">Período</th>
-                            <th className="p-2 text-left text-gray-700">Endereço</th>
-                            <th className="p-2 text-left text-gray-700">Valor Total</th>
-                            <th className="p-2 text-left text-gray-700">Data</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentItems.map((item, index) => (
-                            <tr key={index} className="border-t">
-                                <td className="p-2 text-gray-700">{item.vaga}</td>
-                                <td className="p-2 text-gray-700">{item.apelido}</td>
-                                <td className="p-2 text-gray-700">{item.periodo}</td>
-                                <td className="p-2 text-gray-700">{item.endereco}</td>
-                                <td className="p-2 text-gray-700">{item.valor}</td>
-                                <td className="p-2 text-gray-700">{item.data}</td>
+
+                {/* Contêiner rolável para a tabela */}
+                <div className="overflow-x-auto">
+                    <table className="table-auto bg-white w-full border-collapse">
+                        <thead>
+                            <tr className="bg-gray-200">
+                                <th className="p-2 text-left text-gray-700">N° Vaga</th>
+                                <th className="p-2 text-left text-gray-700">Apelido</th>
+                                <th className="p-2 text-left text-gray-700">Período</th>
+                                <th className="p-2 text-left text-gray-700">Endereço</th>
+                                <th className="p-2 text-left text-gray-700">Valor Total</th>
+                                <th className="p-2 text-left text-gray-700">Data</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <div className="flex justify-between mt-6 flex-wrap gap-4 sm:gap-6">
+                        </thead>
+                        <tbody>
+                            {currentItems.map((item, index) => (
+                                <tr key={index} className="border-t">
+                                    <td className="p-2 text-gray-700">{item.vaga}</td>
+                                    <td className="p-2 text-gray-700">{item.apelido}</td>
+                                    <td className="p-2 text-gray-700">{item.periodo}</td>
+                                    <td className="p-2 text-gray-700">{item.endereco}</td>
+                                    <td className="p-2 text-gray-700">{item.valor}</td>
+                                    <td className="p-2 text-gray-700">{item.data}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div className="flex justify-between mt-4 sm:mt-6 flex-wrap gap-4 sm:gap-6">
                     <Button label="Anterior" onClick={handlePrevious} />
                     <Button label="Próximo" onClick={handleNext} />
                 </div>
+
                 <p className="text-center mt-4 text-gray-200">
                     Página {currentPage} de {totalPages}
                 </p>
