@@ -15,10 +15,10 @@ const CadastroPage = () => {
     };
   
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="w-full max-w-md bg-white p-10 rounded-lg shadow-lg">
-          <h2 className="text-3xl font-semibold mb-2">Acesse sua conta</h2>
-          <p className="text-lg mb-4">Digite seu Email e Senha abaixo para entrar</p>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-600 p-4">
+        <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl transform transition-all duration-300 hover:scale-105">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-4">Acesse sua conta</h2>
+          <p className="text-lg text-center text-gray-600 mb-6">Preencha os campos abaixo para entrar</p>
   
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
@@ -27,7 +27,7 @@ const CadastroPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
             />
             <input
               type="password"
@@ -35,11 +35,11 @@ const CadastroPage = () => {
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
             />
             <button
               type="submit"
-              className="w-full p-3 bg-black text-white font-semibold rounded-md hover:bg-gray-800 transition duration-300"
+              className="w-full p-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
             >
               Entrar
             </button>
