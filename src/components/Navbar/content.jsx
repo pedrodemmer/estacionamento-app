@@ -1,20 +1,25 @@
-"use client";
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHistory,
-  faCar,
-  faCarSide,
-  faSignInAlt,
-} from "@fortawesome/free-solid-svg-icons";
+'use client';
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHistory, faCar, faCarSide, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { usePathname } from 'next/navigation'; // Importando o hook usePathname
 
 export default function Navbar() {
+  const pathname = usePathname(); // Obtendo a URL atual
+
+  // Condicional para verificar se estamos na página de login ou cadastro
+  if (pathname === '/login' || pathname === '/cadastro') {
+    return null; // Não renderiza a Navbar nessas páginas
+  }
+
   return (
     <div>
       {/* Navbar versão desktop */}
       <header className="bg-gray-800 text-white w-full h-auto p-4 relative sm:block hidden">
         <div className="flex justify-between items-center">
-          <a href="http://localhost:3000"><div className="text-2xl font-bold">Logo</div></a>
+          <a href="http://localhost:3000">
+            <div className="text-2xl font-bold">Logo</div>
+          </a>
 
           {/* Menu de navegação para Desktop */}
           <nav className="flex space-x-4 items-center">

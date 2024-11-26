@@ -1,4 +1,5 @@
 "use client";
+import 'tailwindcss/tailwind.css'; 
 import { useState } from "react";
 import { Dropdown1 } from "@/components/Dropdown/content";
 import dotenv from "dotenv";
