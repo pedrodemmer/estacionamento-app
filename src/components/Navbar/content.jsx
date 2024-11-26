@@ -14,8 +14,7 @@ export default function Navbar() {
       {/* Navbar versão desktop */}
       <header className="bg-gray-800 text-white w-full h-auto p-4 relative sm:block hidden">
         <div className="flex justify-between items-center">
-          {/* Logo */}
-          <div className="text-2xl font-bold">Logo</div>
+          <a href="http://localhost:3000"><div className="text-2xl font-bold">Logo</div></a>
 
           {/* Menu de navegação para Desktop */}
           <nav className="flex space-x-4 items-center">
