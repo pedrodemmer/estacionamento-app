@@ -80,3 +80,43 @@
 //     </div>
 //   );
 // }
+
+"use client";
+import { useRouter } from "next/navigation"; // Para navegação
+import { useState } from "react";
+import Input from "@/components/Input/content";
+
+export default function Home() {
+  const [number, setNumber] = useState("");
+  const router = useRouter();
+
+  const handleInputChange = (e) => {
+    setNumber(e.target.value);
+  };
+
+  const handleSearch = () => {
+    if (number.trim() !== "") {
+      router.push(`/vaga?numero=${number}`); // Redireciona com query string
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex justify-center items-center">
+      <div className="p-4 bg-gray-800 rounded-lg text-white">
+        <h1 className="text-2xl mb-4">Buscar Vaga</h1>
+        <Input
+          type="text"
+          placeholder="Digite o número da vaga"
+          value={number}
+          onChange={handleInputChange}
+        />
+        <button
+          onClick={handleSearch}
+          className="mt-4 px-4 py-2 bg-green-600 rounded"
+        >
+          Buscar Vaga
+        </button>
+      </div>
+    </div>
+  );
+}

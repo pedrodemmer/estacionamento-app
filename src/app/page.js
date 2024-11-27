@@ -1,6 +1,7 @@
 "use client";
 import 'tailwindcss/tailwind.css'; 
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Importação para navegação
 import { Dropdown1 } from "@/components/Dropdown/content";
 import dotenv from "dotenv";
 import Input from '@/components/Input/content';
@@ -12,6 +13,7 @@ export default function Home() {
   const [vagaData, setVagaData] = useState(null);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter(); // Para redirecionar
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -37,6 +39,19 @@ export default function Home() {
         console.error(err);
         setError("Erro ao buscar dados. Tente novamente.");
       }
+    }
+  };
+
+  // Função para redirecionar para a página de tarifas
+  const handleSearch = () => {
+    if (number.trim() !== "" && vagaData && vagaData.status) {
+      router.push(`/vaga?numero=${number}`); // Redireciona com query string apenas se a vaga estiver disponível
+    } else {
+      // Se a vaga estiver ocupada, mostra a mensagem de erro por 2 segundos
+      setError("Vaga ocupada.");
+      setTimeout(() => {
+        setError("");  // Limpa a mensagem de erro após 2 segundos
+      }, 2000);
     }
   };
 
@@ -72,6 +87,7 @@ export default function Home() {
               <Dropdown1
                 disponibilidade={vagaData.status ? "Disponível" : "Ocupado"}
                 endereco={vagaData.endereco}
+                handleSearch={handleSearch} // Passando a função como prop
               />
             </div>
           )}

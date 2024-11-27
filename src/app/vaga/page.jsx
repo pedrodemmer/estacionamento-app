@@ -1,16 +1,38 @@
-'use client'
-import Popup from "@/components/Popup/content";
-import { useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Button from "@/components/Button/content";
 
 export default function Vaga() {
-  const [tempo, setTempo] = useState("30m");
+  const searchParams = useSearchParams();
+  const numero = searchParams.get("numero");  // Pega o número da vaga da query string
+  const [vagaData, setVagaData] = useState(null);
   const [preco, setPreco] = useState("R$ 5,00");
 
+  // Busca os dados da vaga assim que o componente é montado
+  useEffect(() => {
+    if (numero) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`/api/vaga/${numero}`);
+          if (response.ok) {
+            const data = await response.json();
+            setVagaData(data);
+          } else {
+            console.error("Vaga não encontrada.");
+          }
+        } catch (err) {
+          console.error("Erro ao buscar os dados da vaga:", err);
+        }
+      };
+
+      fetchData();
+    }
+  }, [numero]);
+
+  // Função para mudar o tempo e ajustar o preço
   const handleTempoChange = (e) => {
     const valor = e.target.value;
-    setTempo(valor);
-
     switch (valor) {
       case "30m":
         setPreco("R$ 5,00");
@@ -45,13 +67,13 @@ export default function Vaga() {
           <tbody>
             <tr className="border-t">
               <td className="p-3 text-gray-700 font-medium">Número da Vaga</td>
-              <td className="p-3 text-gray-700">12</td>
+              <td className="p-3 text-gray-700">{vagaData?.numero || "Não especificado"}</td>
             </tr>
             <tr className="border-t">
               <td className="p-3 text-gray-700 font-medium">Selecione o Tempo</td>
               <td className="p-3">
                 <select
-                  value={tempo}
+                  value="30m"
                   onChange={handleTempoChange}
                   className="w-full p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-green-500 focus:outline-none"
                 >
@@ -64,7 +86,7 @@ export default function Vaga() {
             </tr>
             <tr className="border-t">
               <td className="p-3 text-gray-700 font-medium">Endereço</td>
-              <td className="p-3 text-gray-700">Rua Abobrinha, 455</td>
+              <td className="p-3 text-gray-700">{vagaData?.endereco || "Não especificado"}</td>
             </tr>
             <tr className="border-t">
               <td className="p-3 text-gray-700 font-medium">Preço</td>
@@ -82,3 +104,58 @@ export default function Vaga() {
     </div>
   );
 }
+
+
+
+
+
+// "use client";
+// import { useEffect, useState } from "react";
+// import { useSearchParams } from "next/navigation";
+
+// export default function Vaga() {
+//   const searchParams = useSearchParams();
+//   const numero = searchParams.get("numero"); // Pega o número da vaga da query string
+//   const [vagaData, setVagaData] = useState(null);
+//   const [error, setError] = useState("");
+
+//   useEffect(() => {
+//     if (numero) {
+//       Busca os dados da vaga ao carregar a página
+//       const fetchData = async () => {
+//         try {
+//           const response = await fetch(`/api/vaga/${numero}`);
+//           if (response.ok) {
+//             const data = await response.json();
+//             setVagaData(data);
+//           } else {
+//             setError("Vaga não encontrada.");
+//           }
+//         } catch (err) {
+//           console.error(err);
+//           setError("Erro ao buscar os dados da vaga.");
+//         }
+//       };
+
+//       fetchData();
+//     }
+//   }, [numero]);
+
+//   return (
+//     <div className="min-h-screen flex justify-center items-center bg-gray-100">
+//       <div className="p-6 bg-gray-800 text-white rounded-lg">
+//         <h1 className="text-2xl mb-4">Detalhes da Vaga</h1>
+//         {error && <p className="text-red-500">{error}</p>}
+//         {vagaData ? (
+//           <div>
+//             <p><strong>Número:</strong> {vagaData.numero}</p>
+//             <p><strong>Endereço:</strong> {vagaData.endereco}</p>
+//             <p><strong>Status:</strong> {vagaData.status ? "Disponível" : "Ocupada"}</p>
+//           </div>
+//         ) : (
+//           !error && <p>Carregando...</p>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
