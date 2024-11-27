@@ -74,8 +74,9 @@ export default function Vaga() {
         </table>
         <div className="flex justify-center mt-6">
           <Button
+            onClick={"#"}
             label="Confirmar"
-            color="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md"
+            color="bg-green-600"
           />
         </div>
       </div>

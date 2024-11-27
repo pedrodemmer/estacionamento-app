@@ -5,7 +5,7 @@ import Popup from "@/components/Popup/content";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
-const CadastroPage = () => {
+const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
   
@@ -15,7 +15,7 @@ const CadastroPage = () => {
     };
   
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-600 p-4">
+      <div className="flex items-center justify-center min-h-screen p-4">
         <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl transform transition-all duration-300 hover:scale-105">
           <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-4">Acesse sua conta</h2>
           <p className="text-lg text-center text-gray-600 mb-6">Preencha os campos abaixo para entrar</p>
@@ -85,4 +85,4 @@ const CadastroPage = () => {
     );
   };
   
-  export default CadastroPage;
+  export default LoginPage;

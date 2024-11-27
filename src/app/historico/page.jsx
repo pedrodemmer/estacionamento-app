@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Button from '@/components/Button/content';
+import BackButton from '@/components/BackButton/content';
 
 export default function HistoricoPage() {
     const historicoData = [
@@ -34,8 +35,9 @@ export default function HistoricoPage() {
     return (
         <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
             <div className="w-full max-w-full bg-gray-800 shadow-lg rounded-lg p-4 sm:p-6">
-                <div className="flex items-baseline justify-center mb-4 sm:mb-6">
-                    <h1 className="text-xl sm:text-2xl font-bold text-white">Histórico</h1>
+                <div className="flex items-baseline justify-center mb-6">
+                    <BackButton href="/" />
+                    <h1 className="text-3xl font-bold text-white ml-4">Histórico</h1>
                 </div>
 
                 {/* Contêiner rolável para a tabela */}

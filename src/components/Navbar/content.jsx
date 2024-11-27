@@ -31,13 +31,6 @@ export default function Navbar() {
               <span>Histórico</span>
             </Link>
             <Link
-              href="/adicionar-veiculo"
-              className="flex items-center space-x-2 text-white hover:text-gray-300"
-            >
-              <FontAwesomeIcon icon={faCar} />
-              <span>Adicionar Veículo</span>
-            </Link>
-            <Link
               href="/veiculos"
               className="flex items-center space-x-2 text-white hover:text-gray-300"
             >
@@ -63,13 +56,6 @@ export default function Navbar() {
         >
           <FontAwesomeIcon icon={faHistory} className="w-6 h-6" />
           <span className="text-xs">Histórico</span>
-        </Link>
-        <Link
-          href="/adicionar-veiculo"
-          className="flex flex-col items-center space-y-1 text-white hover:text-gray-300"
-        >
-          <FontAwesomeIcon icon={faCar} className="w-6 h-6" />
-          <span className="text-xs">Adicionar</span>
         </Link>
         <Link
           href="/veiculos"
