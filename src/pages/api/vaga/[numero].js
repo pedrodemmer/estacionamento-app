@@ -1,6 +1,5 @@
 const { Pool } = require('pg');
 
-
 const pool = new Pool({
   connectionString: "postgres://default:pHqY3B1nKbCz@ep-long-wind-a4zpk8b2-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require",
 });
@@ -14,7 +13,7 @@ export default async function handler(req, res) {
 
   try {
     const result = await pool.query(
-      `SELECT v.numero, v.status, e.rua AS endereco 
+      `SELECT v.numero, v.status, e.rua, e.numero AS endereco_numero 
        FROM mydb.vaga v 
        JOIN mydb.endereco e ON v.endereco_id = e.id 
        WHERE v.numero = $1`,
@@ -29,7 +28,7 @@ export default async function handler(req, res) {
     res.status(200).json({
       numero: vaga.numero,
       status: vaga.status,
-      endereco: vaga.endereco,
+      endereco: `${vaga.rua}, ${vaga.endereco_numero}`,
     });
   } catch (error) {
     console.error(error);
