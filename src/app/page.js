@@ -3,6 +3,7 @@ import 'tailwindcss/tailwind.css';
 import { useState } from "react";
 import { Dropdown1 } from "@/components/Dropdown/content";
 import dotenv from "dotenv";
+import Input from '@/components/Input/content';
 
 dotenv.config();
 
@@ -53,13 +54,13 @@ export default function Home() {
           <label htmlFor="inputNumber" className="block text-gray-300 text-lg font-semibold mb-2">
             Digite um número:
           </label>
-          <input
+          <Input
             type="number"
             id="inputNumber"
             value={number}
             onChange={handleInputChange}
             onKeyDown={handleKeyPress}
-            className="px-4 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
+            error={error}
           />
 
           {/* Exibição de erro */}
