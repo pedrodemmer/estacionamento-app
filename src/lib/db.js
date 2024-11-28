@@ -11,6 +11,18 @@ const pool = new Pool({
 
 export { pool };
 
+const query = async (text, params) => {
+  const client = await pool.connect();
+  try {
+    const res = await client.query(text, params);
+    return res;
+  } finally {
+    client.release();
+  }
+};
+
+export { query };
+
 export async function initializeDatabase() {
     const client = await pool.connect();
     try {

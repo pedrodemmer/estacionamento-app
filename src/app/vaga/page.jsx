@@ -8,6 +8,7 @@ export default function Vaga() {
   const numero = searchParams.get("numero");  // Pega o número da vaga da query string
   const [vagaData, setVagaData] = useState(null);
   const [preco, setPreco] = useState("R$ 5,00");
+  const [valoresId, setValoresId] = useState(1); // Exemplo de ID para o valor
 
   // Busca os dados da vaga assim que o componente é montado
   useEffect(() => {
@@ -48,6 +49,37 @@ export default function Vaga() {
         break;
       default:
         setPreco("R$ 0,00");
+    }
+  };
+
+  // Função para salvar o registro na API
+  const salvarRegistro = async () => {
+    const data = {
+      veiculo_id: 1,  // ID do veículo, por exemplo
+      vaga_id: vagaData?.id,  // ID da vaga
+      valores_id: valoresId,  // ID do valor selecionado
+      data: new Date().toISOString(),  // Data e hora atual
+    };
+
+    try {
+      const response = await fetch("/api/salvar-registro", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert("Registro salvo com sucesso!");
+        console.log(result); // Exibe o registro salvo
+      } else {
+        alert("Erro ao salvar o registro.");
+      }
+    } catch (err) {
+      console.error("Erro ao salvar registro:", err);
+      alert("Erro ao salvar o registro.");
     }
   };
 
@@ -98,14 +130,13 @@ export default function Vaga() {
           <Button
             label="Confirmar"
             color="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md"
+            onClick={salvarRegistro} // Chama a função para salvar o registro ao clicar no botão
           />
         </div>
       </div>
     </div>
   );
 }
-
-
 
 
 
