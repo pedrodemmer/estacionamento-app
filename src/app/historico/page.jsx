@@ -67,8 +67,8 @@ export default function HistoricoPage() {
                 </div>
 
                 <div className="flex justify-between mt-4 sm:mt-6 flex-wrap gap-4 sm:gap-6">
-                    <Button label="Anterior" onClick={handlePrevious} />
-                    <Button label="Próximo" onClick={handleNext} />
+                    <Button color="bg-green-600" label="Anterior" onClick={handlePrevious} />
+                    <Button color="bg-green-600" label="Próximo" onClick={handleNext} />
                 </div>
 
                 <p className="text-center mt-4 text-gray-200">
