@@ -1,10 +1,43 @@
 "use client";
 
+import { useState } from "react";
 import Input from "@/components/Input/content";
 import Button from "@/components/Button/content";
 import BackButton from "@/components/BackButton/content";
 
 export default function AddVehicle() {
+  const [placa, setPlaca] = useState("");
+  const [apelido, setApelido] = useState("");
+
+  const handleSubmit = async () => {
+    if (!placa || !apelido) {
+      alert("Por favor, preencha todos os campos!");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/veiculos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ placa, apelido }), // Envia apenas placa e apelido
+      });
+
+      if (response.ok) {
+        alert("Veículo adicionado com sucesso!");
+        setPlaca("");
+        setApelido("");
+      } else {
+        const errorData = await response.json();
+        alert(`Erro: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error("Erro ao enviar dados:", error);
+      alert("Erro ao adicionar veículo.");
+    }
+  };
+
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100 px-4 sm:px-0">
       <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md text-center">
@@ -14,11 +47,24 @@ export default function AddVehicle() {
             Adicionar Veículo
           </h1>
         </div>
-        
+
         <div className="space-y-4">
-          <Input placeholder="Placa do Veículo" />
-          <Input placeholder="Apelido do Veículo" />
-          <Button id="confirm-button" label="Confirmar" color="bg-green-600" />
+          <Input
+            placeholder="Placa do Veículo"
+            value={placa}
+            onChange={(e) => setPlaca(e.target.value)}
+          />
+          <Input
+            placeholder="Apelido do Veículo"
+            value={apelido}
+            onChange={(e) => setApelido(e.target.value)}
+          />
+          <Button
+            id="confirm-button"
+            label="Confirmar"
+            color="bg-green-600"
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </div>

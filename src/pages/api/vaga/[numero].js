@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
   try {
     const result = await pool.query(
-      `SELECT v.numero, v.status, e.rua, e.numero AS endereco_numero 
+      `SELECT v.id, v.numero, v.status, e.rua, e.numero AS endereco_numero 
        FROM mydb.vaga v 
        JOIN mydb.endereco e ON v.endereco_id = e.id 
        WHERE v.numero = $1`,
@@ -26,6 +26,7 @@ export default async function handler(req, res) {
 
     const vaga = result.rows[0];
     res.status(200).json({
+      id: vaga.id,  // Incluindo o id da vaga
       numero: vaga.numero,
       status: vaga.status,
       endereco: `${vaga.rua}, ${vaga.endereco_numero}`,
