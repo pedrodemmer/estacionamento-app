@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Input from "@/components/Input/content";
 import Button from "@/components/Button/content";
 import BackButton from "@/components/BackButton/content";
 
 export default function AddVehicle() {
+  const router = useRouter();
   const [placa, setPlaca] = useState("");
   const [apelido, setApelido] = useState("");
 
@@ -26,6 +28,7 @@ export default function AddVehicle() {
 
       if (response.ok) {
         alert("Veículo adicionado com sucesso!");
+        router.push("/veiculos");
         setPlaca("");
         setApelido("");
       } else {

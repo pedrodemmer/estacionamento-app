@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -9,23 +9,51 @@ import BackButton from "@/components/BackButton/content";
 import Button from "@/components/Button/content";
 
 export default function Veiculos() {
+  const [vehicles, setVehicles] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
 
-  const vehicles = [
-    { id: 1, plate: "ABC-1234", nickname: "Carro 1" },
-    { id: 2, plate: "DEF-5678", nickname: "Carro 2" },
-    { id: 3, plate: "GHI-9012", nickname: "Carro 3" },
-  ];
+  // Fetch vehicles from the API
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        const response = await fetch("/api/veiculos");
+        if (!response.ok) {
+          throw new Error("Erro ao buscar veículos");
+        }
+        const data = await response.json();
+        setVehicles(data);
+      } catch (error) {
+        console.error("Erro ao carregar veículos:", error);
+      }
+    };
+
+    fetchVehicles();
+  }, []);
 
   const handleDelete = (id) => {
     setSelectedVehicle(id);
     setShowPopup(true);
   };
 
-  const confirmDelete = () => {
-    console.log(`Veículo com ID ${selectedVehicle} excluído.`);
-    setShowPopup(false);
+  const confirmDelete = async () => {
+    try {
+      const response = await fetch(`/api/veiculos?id=${selectedVehicle}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao excluir veículo");
+      }
+
+      // Remover o veículo da lista na interface
+      setVehicles((prevVehicles) =>
+        prevVehicles.filter((vehicle) => vehicle.id !== selectedVehicle)
+      );
+      setShowPopup(false);
+    } catch (error) {
+      console.error("Erro ao excluir veículo:", error);
+    }
   };
 
   return (
@@ -48,8 +76,8 @@ export default function Veiculos() {
             {vehicles.map((vehicle) => (
               <tr key={vehicle.id} className="border-t">
                 <td className="p-2 text-gray-700">{vehicle.id}</td>
-                <td className="p-2 text-gray-700">{vehicle.plate}</td>
-                <td className="p-2 text-gray-700">{vehicle.nickname}</td>
+                <td className="p-2 text-gray-700">{vehicle.placa}</td>
+                <td className="p-2 text-gray-700">{vehicle.apelido}</td>
                 <td className="p-2 text-center">
                   <Link
                     href={`/editar-veiculo?id=${vehicle.id}`}
