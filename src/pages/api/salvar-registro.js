@@ -3,15 +3,16 @@ import { query } from '../../lib/db';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { veiculo_id, vaga_id, valores_id, data } = req.body;
+    const { apelido, vaga_id, valores_id, data } = req.body;
 
     try {
+      // Inserindo dados do veículo diretamente na tabela registro
       const insertQuery = `
-        INSERT INTO mydb.registro (veiculo_id, vaga_id, valores_id, data)
+        INSERT INTO mydb.registro (apelido, vaga_id, valores_id, data)
         VALUES ($1, $2, $3, $4) RETURNING *;
       `;
 
-      const values = [veiculo_id, vaga_id, valores_id, data];
+      const values = [apelido, vaga_id, valores_id, data];
 
       const result = await query(insertQuery, values);
 

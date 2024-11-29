@@ -1,12 +1,13 @@
-"use client";
+'use client'
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrashAlt, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import Popup from "@/components/Popup/content";
 import BackButton from "@/components/BackButton/content";
 import Button from "@/components/Button/content";
+import { jsPDF } from 'jspdf';
 
 export default function Veiculos() {
   const [vehicles, setVehicles] = useState([]);
@@ -56,12 +57,45 @@ export default function Veiculos() {
     }
   };
 
+  // Função para gerar o PDF
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    // Adiciona um título no PDF
+    doc.setFontSize(18);
+    doc.text("Lista de Veículos", 20, 20);
+
+    // Define o título das colunas
+    doc.setFontSize(12);
+    doc.text("ID", 20, 30);
+    doc.text("Placa", 60, 30);
+    doc.text("Apelido", 120, 30);
+
+    // Adiciona os dados dos veículos
+    let y = 40;
+    vehicles.forEach(vehicle => {
+      doc.text(vehicle.id.toString(), 20, y);
+      doc.text(vehicle.placa, 60, y);
+      doc.text(vehicle.apelido, 120, y);
+      y += 10;
+    });
+
+    // Salva o PDF
+    doc.save("veiculos.pdf");
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
       <div className="w-full max-w-4xl bg-gray-800 shadow-lg rounded-lg p-4 overflow-auto">
         <div className="flex items-baseline justify-center mb-6">
           <BackButton href="/" />
           <h1 className="text-3xl font-bold text-white ml-4">Meus Veículos</h1>
+          <button
+            className="p-2 rounded-full hover:bg-blue-500 hover:text-white transition-all duration-300"
+            onClick={generatePDF}
+          >
+            <FontAwesomeIcon icon={faFileAlt} color="white" />
+          </button>
         </div>
         <table className="table-auto bg-white w-full border-collapse">
           <thead>

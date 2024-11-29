@@ -11,8 +11,9 @@ export default function Vaga() {
   const [preco, setPreco] = useState("R$ 5,00");
   const [valoresId, setValoresId] = useState(1); // ID do valor padrão
   const [loading, setLoading] = useState(false);
+  const [veiculos, setVeiculos] = useState([]); // Lista de veículos do usuário
+  const [veiculoSelecionado, setVeiculoSelecionado] = useState(null); // ID do veículo selecionado
 
-  // Busca os dados da vaga assim que o componente é montado
   useEffect(() => {
     if (numero) {
       const fetchData = async () => {
@@ -32,13 +33,35 @@ export default function Vaga() {
     }
   }, [numero]);
 
-  // Atualiza o preço conforme o tempo selecionado
+  useEffect(() => {
+    const fetchVeiculos = async () => {
+      try {
+        const response = await fetch("/api/veiculos");
+        if (response.ok) {
+          const data = await response.json();
+          setVeiculos(data);
+          
+          // Se o veículo "Uno" estiver na lista de veículos, selecione-o automaticamente
+          const uno = data.find(veiculo => veiculo.apelido === "Uno");
+          if (uno) {
+            setVeiculoSelecionado(uno.id); // Preenche o campo com o ID do Uno
+          }
+        } else {
+          console.error("Erro ao buscar veículos.");
+        }
+      } catch (err) {
+        console.error("Erro ao buscar veículos:", err);
+      }
+    };
+    fetchVeiculos();
+  }, []);
+
   const handleTempoChange = (e) => {
     const valor = e.target.value;
     switch (valor) {
       case "30m":
         setPreco("R$ 5,00");
-        setValoresId(1); // ID correspondente no banco de dados
+        setValoresId(1);
         break;
       case "1h":
         setPreco("R$ 10,00");
@@ -59,18 +82,21 @@ export default function Vaga() {
 
   // Salva o registro no banco de dados
   const salvarRegistro = async () => {
-    if (!vagaData?.id) {
-      alert("Os dados da vaga ainda não foram carregados.");
+    if (!vagaData?.id || !veiculoSelecionado) {
+      alert("Por favor, selecione um veículo.");
       return;
     }
-
+  
+    // Obtendo o apelido do veículo selecionado
+    const veiculoSelecionadoData = veiculos.find(veiculo => veiculo.id === parseInt(veiculoSelecionado));
+  
     const data = {
-      veiculo_id: 1, // Substituir pelo ID do veículo correto
+      apelido: veiculoSelecionadoData?.apelido, // Passando o apelido do veículo para a tabela
       vaga_id: vagaData.id,
       valores_id: valoresId,
       data: new Date().toISOString(),
     };
-
+  
     setLoading(true);
     try {
       const response = await fetch("/api/salvar-registro", {
@@ -80,7 +106,7 @@ export default function Vaga() {
         },
         body: JSON.stringify(data),
       });
-
+  
       if (response.ok) {
         const result = await response.json();
         alert("Registro salvo com sucesso!");
@@ -113,6 +139,27 @@ export default function Vaga() {
               <td className="p-3 text-gray-700">{vagaData?.numero || "Carregando..."}</td>
             </tr>
             <tr className="border-t">
+              <td className="p-3 text-gray-700 font-medium">Endereço</td>
+              <td className="p-3 text-gray-700">{vagaData?.endereco || "Carregando..."}</td>
+            </tr>
+            <tr className="border-t">
+              <td className="p-3 text-gray-700 font-medium">Selecione o Carro</td>
+              <td className="p-3">
+                <select
+                  value={veiculoSelecionado || ""}
+                  onChange={(e) => setVeiculoSelecionado(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                >
+                  <option value="" disabled>Escolha um veículo</option>
+                  {veiculos.map((veiculo) => (
+                    <option key={veiculo.id} value={veiculo.id}>
+                      {veiculo.apelido}
+                    </option>
+                  ))}
+                </select>
+              </td>
+            </tr>
+            <tr className="border-t">
               <td className="p-3 text-gray-700 font-medium">Selecione o Tempo</td>
               <td className="p-3">
                 <select
@@ -128,15 +175,12 @@ export default function Vaga() {
               </td>
             </tr>
             <tr className="border-t">
-              <td className="p-3 text-gray-700 font-medium">Endereço</td>
-              <td className="p-3 text-gray-700">{vagaData?.endereco || "Carregando..."}</td>
-            </tr>
-            <tr className="border-t">
               <td className="p-3 text-gray-700 font-medium">Preço</td>
               <td className="p-3 text-gray-700">{preco}</td>
             </tr>
           </tbody>
         </table>
+
         <div className="flex justify-center mt-6">
           <Button
             label={loading ? "Salvando..." : "Confirmar"}
