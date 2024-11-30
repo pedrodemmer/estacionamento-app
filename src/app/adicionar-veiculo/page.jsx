@@ -27,7 +27,6 @@ export default function AddVehicle() {
       });
 
       if (response.ok) {
-        alert("Veículo adicionado com sucesso!");
         router.push("/veiculos");
         setPlaca("");
         setApelido("");
