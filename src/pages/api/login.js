@@ -23,10 +23,10 @@ export default async function handler(req, res) {
         return res.status(401).json({ error: "Credenciais inválidas" });
       }
 
-      // Gerar o token JWT
+      // Gerar o token JWT com a chave 'secreta'
       const token = jwt.sign(
         { id: usuario.id, email: usuario.email },
-        "secreta", // Use uma chave secreta forte armazenada em variáveis de ambiente!
+        "secreta", 
         { expiresIn: "1h" }
       );
 

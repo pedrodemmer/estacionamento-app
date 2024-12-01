@@ -38,7 +38,7 @@ export default function Navbar() {
               <span>Meus Veículos</span>
             </Link>
             <Link
-              href="/sair"
+              href="/login"
               className="flex items-center space-x-2 text-white hover:text-gray-300"
             >
               <FontAwesomeIcon icon={faSignInAlt} />

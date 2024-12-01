@@ -1,10 +1,23 @@
 import { pool } from "@/lib/db";
+import jwt from "jsonwebtoken";
+
+const SECRET_KEY = "secreta";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
+    const { usuario_id } = req.query;
+
+    if (!usuario_id) {
+      return res.status(400).json({ error: "Usuário não especificado" });
+    }
+
     try {
-      const query = "SELECT id, placa, apelido FROM mydb.veiculo";
-      const result = await pool.query(query);
+      const query = `
+        SELECT id, placa, apelido 
+        FROM mydb.veiculo 
+        WHERE usuario_id = $1
+      `;
+      const result = await pool.query(query, [usuario_id]);
 
       res.status(200).json(result.rows); // Retorna os veículos
     } catch (error) {
@@ -13,6 +26,22 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "POST") {
     const { placa, apelido } = req.body;
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Token não fornecido" });
+    }
+
+    const token = authHeader.split(' ')[1]; // Obtendo o token sem o 'Bearer'
+    let usuario_id;
+
+    try {
+      const decodedToken = jwt.verify(token, SECRET_KEY);
+      usuario_id = decodedToken.id; // Certifique-se de que o token contém `usuario_id`
+    } catch (error) {
+      console.error("Erro ao decodificar token:", error);
+      return res.status(401).json({ error: "Token inválido ou expirado" });
+    }
 
     if (!placa || !apelido) {
       return res.status(400).json({ error: "Placa e apelido são obrigatórios" });
@@ -26,11 +55,11 @@ export default async function handler(req, res) {
       const nextId = maxId + 1;
 
       const insertQuery = `
-        INSERT INTO mydb.veiculo (id, placa, apelido, usuario_id) 
-        VALUES ($1, $2, $3, $4)
-        RETURNING id
-      `;
-      const values = [nextId, placa, apelido, null];
+          INSERT INTO mydb.veiculo (id, placa, apelido, usuario_id) 
+          VALUES ($1, $2, $3, $4)
+          RETURNING id
+        `;
+      const values = [nextId, placa, apelido, usuario_id];
 
       const result = await pool.query(insertQuery, values);
 

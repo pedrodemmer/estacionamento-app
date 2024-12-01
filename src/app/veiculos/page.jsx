@@ -8,27 +8,36 @@ import Popup from "@/components/Popup/content";
 import BackButton from "@/components/BackButton/content";
 import Button from "@/components/Button/content";
 import { jsPDF } from 'jspdf';
+import jwt from 'jsonwebtoken';
+
+function decodeJwtId(token) {
+    const decoded = jwt.decode(token);
+    return decoded.id;
+}
 
 export default function Veiculos() {
   const [vehicles, setVehicles] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
 
-  // Fetch vehicles from the API
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await fetch("/api/veiculos");
+        const userToken = localStorage.getItem('token');
+        const userId = decodeJwtId(userToken);
+
+        const response = await fetch(`/api/veiculos?usuario_id=${userId}`);
         if (!response.ok) {
-          throw new Error("Erro ao buscar veículos");
+          throw new Error('Erro ao buscar veículos');
         }
         const data = await response.json();
-        setVehicles(data);
+        setVehicles(data); // Processar os dados dos veículos
       } catch (error) {
-        console.error("Erro ao carregar veículos:", error);
+        console.error("Erro ao carregar veículos:", error.message);
+        alert("Houve um erro ao carregar os veículos. Por favor, tente novamente mais tarde.");
       }
     };
-
+        
     fetchVehicles();
   }, []);
 
@@ -47,7 +56,6 @@ export default function Veiculos() {
         throw new Error("Erro ao excluir veículo");
       }
 
-      // Remover o veículo da lista na interface
       setVehicles((prevVehicles) =>
         prevVehicles.filter((vehicle) => vehicle.id !== selectedVehicle)
       );
@@ -57,21 +65,17 @@ export default function Veiculos() {
     }
   };
 
-  // Função para gerar o PDF
   const generatePDF = () => {
     const doc = new jsPDF();
 
-    // Adiciona um título no PDF
     doc.setFontSize(18);
     doc.text("Lista de Veículos", 20, 20);
 
-    // Define o título das colunas
     doc.setFontSize(12);
     doc.text("ID", 20, 30);
     doc.text("Placa", 60, 30);
     doc.text("Apelido", 120, 30);
 
-    // Adiciona os dados dos veículos
     let y = 40;
     vehicles.forEach(vehicle => {
       doc.text(vehicle.id.toString(), 20, y);
@@ -80,7 +84,6 @@ export default function Veiculos() {
       y += 10;
     });
 
-    // Salva o PDF
     doc.save("veiculos.pdf");
   };
 

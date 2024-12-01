@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/Input/content";
 import Button from "@/components/Button/content";
 import BackButton from "@/components/BackButton/content";
+import jwt from 'jsonwebtoken';
 
 export default function AddVehicle() {
   const router = useRouter();
@@ -16,16 +17,26 @@ export default function AddVehicle() {
       alert("Por favor, preencha todos os campos!");
       return;
     }
-
+  
+    const token = localStorage.getItem('token'); 
+ 
+    const decoded = jwt.decode(token);
+    const usuario_id = decoded.id;
+  
     try {
       const response = await fetch("/api/veiculos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify({ placa, apelido }), // Envia apenas placa e apelido
+        body: JSON.stringify({
+          placa,
+          apelido,
+          usuario_id,
+        }),
       });
-
+  
       if (response.ok) {
         router.push("/veiculos");
         setPlaca("");
@@ -39,6 +50,7 @@ export default function AddVehicle() {
       alert("Erro ao adicionar veículo.");
     }
   };
+  
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100 px-4 sm:px-0">
