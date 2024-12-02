@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       `;
       const result = await pool.query(query, [usuario_id]);
 
-      res.status(200).json(result.rows); // Retorna os veículos
+      res.status(200).json(result.rows);
     } catch (error) {
       console.error("Erro ao buscar veículos:", error);
       res.status(500).json({ error: "Erro ao buscar veículos" });

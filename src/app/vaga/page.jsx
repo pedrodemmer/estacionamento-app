@@ -1,8 +1,9 @@
-"use client";
+'use client'
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Button from "@/components/Button/content";
+import jwt from 'jsonwebtoken';  // Importa o jsonwebtoken
 
 export default function Vaga() {
   const searchParams = useSearchParams();
@@ -36,15 +37,27 @@ export default function Vaga() {
   useEffect(() => {
     const fetchVeiculos = async () => {
       try {
-        const response = await fetch("/api/veiculos");
+        const token = localStorage.getItem("token"); // Substitua pelo método usado para armazenar o token
+        if (!token) {
+          console.error("Token não encontrado");
+          return;
+        }
+  
+        const response = await fetch(`/api/veiculo`, {
+          method: "GET", 
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
         if (response.ok) {
           const data = await response.json();
           setVeiculos(data);
-          
-          // Se o veículo "Uno" estiver na lista de veículos, selecione-o automaticamente
-          const uno = data.find(veiculo => veiculo.apelido === "Uno");
+  
+          // Seleciona automaticamente o veículo "Uno" se estiver disponível
+          const uno = data.find((veiculo) => veiculo.apelido === "Uno");
           if (uno) {
-            setVeiculoSelecionado(uno.id); // Preenche o campo com o ID do Uno
+            setVeiculoSelecionado(uno.id);
           }
         } else {
           console.error("Erro ao buscar veículos.");
@@ -53,8 +66,9 @@ export default function Vaga() {
         console.error("Erro ao buscar veículos:", err);
       }
     };
+  
     fetchVeiculos();
-  }, []);
+  }, []);  
 
   const handleTempoChange = (e) => {
     const valor = e.target.value;
@@ -86,14 +100,23 @@ export default function Vaga() {
       alert("Por favor, selecione um veículo.");
       return;
     }
-  
-    // Obtendo o apelido do veículo selecionado
+
     const veiculoSelecionadoData = veiculos.find(veiculo => veiculo.id === parseInt(veiculoSelecionado));
+
+    const token = localStorage.getItem("token");
+    const decodedToken = jwt.decode(token); 
+    const userId = decodedToken?.sub;  
+
+    if (!userId) {
+      alert("Usuário não autenticado.");
+      return;
+    }
   
     const data = {
-      apelido: veiculoSelecionadoData?.apelido, // Passando o apelido do veículo para a tabela
+      apelido: veiculoSelecionadoData?.apelido, 
       vaga_id: vagaData.id,
       valores_id: valoresId,
+      usuario_id: userId, 
       data: new Date().toISOString(),
     };
   
@@ -180,14 +203,8 @@ export default function Vaga() {
             </tr>
           </tbody>
         </table>
-
         <div className="flex justify-center mt-6">
-          <Button
-            label={loading ? "Salvando..." : "Confirmar"}
-            color="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md"
-            onClick={salvarRegistro}
-            disabled={loading}
-          />
+          <Button label="Salvar" onClick={salvarRegistro} loading={loading} />
         </div>
       </div>
     </div>
