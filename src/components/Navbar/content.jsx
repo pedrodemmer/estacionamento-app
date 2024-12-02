@@ -1,15 +1,23 @@
-'use client';
-import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHistory, faCar, faCarSide, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-import { usePathname } from 'next/navigation'; // Importando o hook usePathname
+"use client";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHistory,
+  faCar,
+  faCarSide,
+  faSignInAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const pathname = usePathname(); // Obtendo a URL atual
 
-  // Condicional para verificar se estamos na página de login ou cadastro
-  if (pathname === '/login' || pathname === '/cadastro') {
-    return null; // Não renderiza a Navbar nessas páginas
+  // Ocultar Navbar somente em páginas específicas
+  const hiddenPaths = ["/login", "/cadastro"];
+  const shouldHideNavbar = hiddenPaths.includes(pathname);
+
+  if (shouldHideNavbar) {
+    return null;
   }
 
   return (
@@ -17,7 +25,7 @@ export default function Navbar() {
       {/* Navbar versão desktop */}
       <header className="bg-gray-800 text-white w-full h-auto p-4 relative sm:block hidden">
         <div className="flex justify-between items-center">
-          <a href="http://localhost:3000">
+          <a href="/">
             <div className="text-2xl font-bold">Logo</div>
           </a>
 

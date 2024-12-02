@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar/content'
+import "../tailwind.css";
 
 export const metadata = {
   title: "Create Next App",
