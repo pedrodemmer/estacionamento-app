@@ -2,6 +2,16 @@
 
 import Chart from "@/components/Chart/content";
 import Card from "@/components/Card/content";
+import { Pie } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+// Registrar os elementos necessários do Chart.js
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Dashboard() {
   const dataFicticia = {
@@ -24,31 +34,41 @@ export default function Dashboard() {
   const valoresGastos = [450, 400, 350];
   const valoresTempo = [40, 45, 50];
 
+  const dataPie = {
+    labels: dataFicticia.bairros.map((b) => b.nome),
+    datasets: [
+      {
+        data: dataFicticia.bairros.map((b) => b.quantidade),
+        backgroundColor: ["#4A90E2", "#50E3C2", "#F5A623"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 px-4 sm:px-0">
-      <div className="w-full max-w-5xl bg-gray-800 p-6 rounded-lg shadow-lg text-white">
-        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+    <div className="min-h-screen pt-16 sm:pt-20 bg-gray-100 px-4 sm:px-8">
+      <div className="w-full max-w-5xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg text-white">
+        <h1 className="text-3xl font-bold mb-6 text-center">Dashboard</h1>
 
         {/* Cards Resumo */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
           <Card
-            title="Gastos (R$)"
-            value={`R$ ${dataFicticia.gastos.atual}`}
-            comparison={`Anterior: R$ ${dataFicticia.gastos.anterior}`}
-          />
-          <Card
-            title="Tempo Estacionado (h)"
-            value={`${dataFicticia.tempoEstacionado.atual}h`}
-            comparison={`Anterior: ${dataFicticia.tempoEstacionado.anterior}h`}
-          />
-          <Card
-            title="Bairros Mais Estacionados"
-            value={`${dataFicticia.bairros[0].nome}`}
-            comparison={`Total: ${dataFicticia.bairros.reduce(
-              (acc, b) => acc + b.quantidade,
-              0
-            )}`}
-          />
+              title="Gastos (R$)"
+              value={`R$ ${dataFicticia.gastos.atual}`}
+              comparison={`Anterior: R$ ${dataFicticia.gastos.anterior}`}
+            />
+           <Card
+              title="Tempo Estacionado (h)"
+              value={`${dataFicticia.tempoEstacionado.atual}h`}
+              comparison={`Anterior: ${dataFicticia.tempoEstacionado.anterior}h`}
+            />
+          {/* Gráfico de Pizza */}
+          <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center">
+            <h2 className="text-lg text-black font-semibold mb-4 text-center">
+              Bairros Mais Estacionados
+            </h2>
+            <Pie data={dataPie} />
+          </div>
         </div>
 
         {/* Gráficos */}
