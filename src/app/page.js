@@ -62,7 +62,7 @@ export default function Home() {
           Apelido do Carro | Placa: XXX-126
         </h1>
         <p className="text-xl text-gray-300 mb-4">
-          Estacionado no N° 48 | 00:00 Minutos Restantes
+          Estacionado no N° -- | 00:00 Minutos Restantes
         </p>
 
         <div className="mb-6 relative">

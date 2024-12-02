@@ -10,7 +10,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState(null);
-  const router = useRouter(); // Hook para redirecionamento
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,10 +28,8 @@ const LoginPage = () => {
       if (res.ok) {
         const data = await res.json();
 
-        // Opcional: salvar o token no localStorage
         localStorage.setItem("token", data.token);
 
-        // Redireciona o usuário para a página inicial
         router.push("/");
       } else {
         // Trata erros de login (e.g., credenciais inválidas)

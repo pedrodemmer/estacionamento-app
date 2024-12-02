@@ -31,7 +31,7 @@ const RegistroPage = () => {
       return;
     }
 
-    setError(""); // Limpar mensagem de erro
+    setError("");
 
     try {
       const response = await fetch("/api/cadastro", {
@@ -43,7 +43,6 @@ const RegistroPage = () => {
       });
 
       if (response.ok) {
-        // Redireciona para a página de login
         router.push("/login");
       } else {
         const errorData = await response.json();

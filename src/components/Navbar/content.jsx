@@ -26,7 +26,7 @@ export default function Navbar() {
       <header className="bg-gray-800 text-white w-full h-auto p-4 relative sm:block hidden">
         <div className="flex justify-between items-center">
           <a href="/">
-            <div className="text-2xl font-bold">Logo</div>
+            <div className="text-2xl font-bold">CityPark</div>
           </a>
 
           {/* Menu de navegação para Desktop */}

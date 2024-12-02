@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Button from "@/components/Button/content";
-import jwt from 'jsonwebtoken';  // Importa o jsonwebtoken
+import jwt from 'jsonwebtoken'; 
+import { useRouter } from "next/navigation";
 
 export default function Vaga() {
   const searchParams = useSearchParams();
@@ -14,6 +15,7 @@ export default function Vaga() {
   const [loading, setLoading] = useState(false);
   const [veiculos, setVeiculos] = useState([]); // Lista de veículos do usuário
   const [veiculoSelecionado, setVeiculoSelecionado] = useState(null); // ID do veículo selecionado
+  const router = useRouter();
 
   useEffect(() => {
     if (numero) {
@@ -94,7 +96,6 @@ export default function Vaga() {
     }
   };
 
-  // Salva o registro no banco de dados
   const salvarRegistro = async () => {
     if (!vagaData?.id || !veiculoSelecionado) {
       alert("Por favor, selecione um veículo.");
@@ -106,11 +107,6 @@ export default function Vaga() {
     const token = localStorage.getItem("token");
     const decodedToken = jwt.decode(token); 
     const userId = decodedToken?.sub;  
-
-    if (!userId) {
-      alert("Usuário não autenticado.");
-      return;
-    }
   
     const data = {
       apelido: veiculoSelecionadoData?.apelido, 
@@ -134,6 +130,7 @@ export default function Vaga() {
         const result = await response.json();
         alert("Registro salvo com sucesso!");
         console.log("Registro salvo:", result);
+        router.push("/");
       } else {
         alert("Erro ao salvar o registro.");
       }
@@ -204,7 +201,7 @@ export default function Vaga() {
           </tbody>
         </table>
         <div className="flex justify-center mt-6">
-          <Button label="Salvar" onClick={salvarRegistro} loading={loading} />
+          <Button label="Salvar" color="bg-green-500" onClick={salvarRegistro} loading={loading} />
         </div>
       </div>
     </div>
