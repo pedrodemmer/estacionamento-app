@@ -14,6 +14,7 @@ export default function EditVehicle() {
   const [placa, setPlaca] = useState("");
   const [apelido, setApelido] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true); // Indica se os dados ainda estão sendo carregados
 
   // Carregar os dados do veículo
   useEffect(() => {
@@ -21,6 +22,8 @@ export default function EditVehicle() {
       try {
         const response = await fetch(`/api/veiculos?id=${vehicleId}`);
         if (!response.ok) {
+          const data = await response.json();
+          console.log(data.json());
           throw new Error("Erro ao buscar veículo");
         }
         const data = await response.json();
@@ -28,6 +31,9 @@ export default function EditVehicle() {
         setApelido(data.apelido);
       } catch (error) {
         console.error("Erro ao carregar veículo:", error);
+        alert("Erro ao carregar dados do veículo.");
+      } finally {
+        setIsFetching(false);
       }
     };
 
@@ -65,6 +71,14 @@ export default function EditVehicle() {
     }
   };
 
+  if (isFetching) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gray-100">
+        <p className="text-lg font-semibold text-gray-700">Carregando dados...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100 px-4 sm:px-0">
       <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md text-center">
@@ -77,11 +91,13 @@ export default function EditVehicle() {
           <Input
             placeholder="Placa do Veículo"
             value={placa}
+            maxLength={7} // Limitação para 7 caracteres
             onChange={(e) => setPlaca(e.target.value)}
           />
           <Input
             placeholder="Apelido do Veículo"
             value={apelido}
+            maxLength={45} // Limitação para 45 caracteres
             onChange={(e) => setApelido(e.target.value)}
           />
           <div className="flex items-center justify-center mb-6 gap-4">
