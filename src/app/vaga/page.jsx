@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 
 export default function Vaga() {
   const searchParams = useSearchParams();
-  const numero = searchParams.get("numero"); // Pega o número da vaga da query string
+  const numero = searchParams.get("numero"); 
   const [vagaData, setVagaData] = useState(null);
   const [preco, setPreco] = useState("R$ 5,00");
-  const [valoresId, setValoresId] = useState(1); // ID do valor padrão
+  const [valoresId, setValoresId] = useState(1); 
   const [loading, setLoading] = useState(false);
-  const [veiculos, setVeiculos] = useState([]); // Lista de veículos do usuário
-  const [veiculoSelecionado, setVeiculoSelecionado] = useState(null); // ID do veículo selecionado
+  const [veiculos, setVeiculos] = useState([]);
+  const [veiculoSelecionado, setVeiculoSelecionado] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function Vaga() {
   useEffect(() => {
     const fetchVeiculos = async () => {
       try {
-        const token = localStorage.getItem("token"); // Substitua pelo método usado para armazenar o token
+        const token = localStorage.getItem("token");
         if (!token) {
           console.error("Token não encontrado");
           return;

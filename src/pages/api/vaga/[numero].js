@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
     const vaga = result.rows[0];
     res.status(200).json({
-      id: vaga.id,  // Incluindo o id da vaga
+      id: vaga.id, 
       numero: vaga.numero,
       status: vaga.status,
       endereco: `${vaga.rua}, ${vaga.endereco_numero}`,

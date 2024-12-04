@@ -10,9 +10,8 @@ import {
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const pathname = usePathname(); // Obtendo a URL atual
+  const pathname = usePathname();
 
-  // Ocultar Navbar somente em páginas específicas
   const hiddenPaths = ["/login", "/cadastro"];
   const shouldHideNavbar = hiddenPaths.includes(pathname);
 
@@ -22,14 +21,12 @@ export default function Navbar() {
 
   return (
     <div>
-      {/* Navbar versão desktop */}
       <header className="bg-gray-800 text-white w-full h-auto p-4 relative sm:block hidden">
         <div className="flex justify-between items-center">
           <a href="/">
             <div className="text-2xl font-bold">CityPark</div>
           </a>
 
-          {/* Menu de navegação para Desktop */}
           <nav className="flex space-x-4 items-center">
             <Link
               href="/historico"
@@ -56,7 +53,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Navbar versão mobile */}
       <nav className="sm:hidden fixed bottom-0 left-0 w-full bg-gray-800 text-white flex justify-around py-3 shadow-lg z-50">
         <Link
           href="/historico"

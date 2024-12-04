@@ -3,8 +3,7 @@ import jwt from 'jsonwebtoken';
 
 export default async function handler(req, res) {
     if (req.method === "GET") {
-        // Extrair o token do cabeçalho de autorização
-        const token = req.headers.authorization?.split(' ')[1];  // Espera que o token esteja no formato "Bearer <token>"
+        const token = req.headers.authorization?.split(' ')[1]; 
 
         if (!token) {
             return res.status(401).json({ error: "Token não fornecido" });

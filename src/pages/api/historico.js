@@ -1,9 +1,7 @@
-// pages/api/historico.js
-import { pool } from '@/lib/db';  // Importando o pool de conexões
+import { pool } from '@/lib/db';
 
 export default async function handler(req, res) {
     try {
-        // Realiza o JOIN para buscar informações completas
         const result = await pool.query(`
             SELECT 
                 r.id,
@@ -22,10 +20,8 @@ export default async function handler(req, res) {
             ORDER BY r.data DESC;  -- Ajuste a ordenação conforme necessário
         `);
         
-        // Log para verificar o resultado
         console.log('Resultado da consulta:', result.rows);
 
-        // Retorna os dados em formato JSON
         res.status(200).json(result.rows);  
     } catch (error) {
         console.error('Erro ao buscar dados do banco:', error);

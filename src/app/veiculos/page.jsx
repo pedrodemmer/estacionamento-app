@@ -31,7 +31,7 @@ export default function Veiculos() {
           throw new Error('Erro ao buscar veículos');
         }
         const data = await response.json();
-        setVehicles(data); // Processar os dados dos veículos
+        setVehicles(data);
       } catch (error) {
         console.error("Erro ao carregar veículos:", error.message);
         alert("Houve um erro ao carregar os veículos. Por favor, tente novamente mais tarde.");

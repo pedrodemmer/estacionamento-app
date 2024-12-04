@@ -154,11 +154,10 @@ ALTER TABLE "mydb"."registro" ADD CONSTRAINT "fk_registro_valores1" FOREIGN KEY 
         await client.query('COMMIT');
         console.log('Banco de dados inicializado com sucesso');
     } catch (error) {
-        // Se ocorrer algum erro, faz rollback e loga o erro
         await client.query('ROLLBACK');
         console.error('Erro ao inicializar o banco de dados:', error);
         throw error;
     } finally {
-        client.release();  // Libera a conexão de volta ao pool
+        client.release();
     }
 }

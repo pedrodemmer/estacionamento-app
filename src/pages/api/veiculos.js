@@ -45,12 +45,12 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: "Token não fornecido" });
     }
 
-    const token = authHeader.split(' ')[1]; // Obtendo o token sem o 'Bearer'
+    const token = authHeader.split(' ')[1]; 
     let usuario_id;
 
     try {
       const decodedToken = jwt.verify(token, SECRET_KEY);
-      usuario_id = decodedToken.id; // Certifique-se de que o token contém `usuario_id`
+      usuario_id = decodedToken.id; 
     } catch (error) {
       console.error("Erro ao decodificar token:", error);
       return res.status(401).json({ error: "Token inválido ou expirado" });

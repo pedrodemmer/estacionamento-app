@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Para redirecionar o usuário
-import Popup from "@/components/Popup/content"; // Mantive o Popup, caso você deseje usá-lo
+import { useRouter } from "next/navigation";
+import Popup from "@/components/Popup/content";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
@@ -16,7 +16,6 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      // Requisição para a API de login
       const res = await fetch("/api/login", {
         method: "POST",
         headers: {
@@ -32,12 +31,10 @@ const LoginPage = () => {
 
         router.push("/");
       } else {
-        // Trata erros de login (e.g., credenciais inválidas)
         const { error } = await res.json();
         setError(error || "Erro ao fazer login. Tente novamente.");
       }
     } catch (err) {
-      // Trata erros de rede ou inesperados
       setError("Erro ao conectar ao servidor. Tente novamente mais tarde.");
     }
   };

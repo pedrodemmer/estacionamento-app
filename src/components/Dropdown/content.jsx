@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Button from '@/components/Button/content';
 
-export function Dropdown1({ disponibilidade, endereco, handleSearch }) { // Adicione handleSearch como prop
+export function Dropdown1({ disponibilidade, endereco, handleSearch }) {
   return (
     <div className="absolute mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
       <div className="px-4 py-2 border-b border-gray-200">
@@ -27,8 +27,6 @@ export function Dropdown1({ disponibilidade, endereco, handleSearch }) { // Adic
     </div>
   );
 }
-
-
 
 export function Dropdown2() {
   const [isOpen, setIsOpen] = useState(false);
