@@ -11,11 +11,10 @@ export default function HistoricoPage() {
     const itemsPerPage = 3;
     const [currentPage, setCurrentPage] = useState(1);
 
-    // Função para fazer a requisição GET ao backend
     useEffect(() => {
         const fetchHistoricoData = async () => {
             try {
-                const response = await fetch('/api/historico'); // A URL do endpoint da API
+                const response = await fetch('/api/historico');
                 if (response.ok) {
                     const data = await response.json();
                     setHistoricoData(data);
@@ -43,7 +42,6 @@ export default function HistoricoPage() {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = historicoData.slice(startIndex, startIndex + itemsPerPage);
 
-    // Função para formatar o período (tempo)
     const formatPeriodo = (tempo) => {
         const [hours, minutes, seconds] = tempo.split(':');
         if (parseInt(hours) > 0) {
@@ -56,7 +54,6 @@ export default function HistoricoPage() {
         return 'Menos de 1 Minuto';
     };
 
-    // Função para formatar a data
     const formatData = (data) => {
         const date = new Date(data);
         const day = String(date.getDate()).padStart(2, '0');
@@ -65,23 +62,19 @@ export default function HistoricoPage() {
         return `${day}/${month}/${year}`;
     };
 
-    // Função para formatar o valor como moeda
     const formatValor = (valor) => {
         const numericValue = parseFloat(valor);
         if (isNaN(numericValue)) return 'R$ 0,00';
         return `R$ ${numericValue.toFixed(2).replace('.', ',')}`;
     };
 
-    // Função para gerar o PDF
     const generatePDF = () => {
         const doc = new jsPDF();
         doc.setFont('Arial', 'normal');
         doc.setFontSize(12);
 
-        // Adicionar título
         doc.text('Histórico de Registro', 10, 10);
 
-        // Adicionar dados
         let yOffset = 20;
         currentItems.forEach((item, index) => {
             doc.text(`N° Vaga: ${item.vaga}`, 10, yOffset);
@@ -98,7 +91,6 @@ export default function HistoricoPage() {
             yOffset += 20;
         });
 
-        // Gerar o PDF
         doc.save('historico.pdf');
     };
 
@@ -115,7 +107,6 @@ export default function HistoricoPage() {
                     </button>
                 </div>
 
-                {/* Contêiner rolável para a tabela */}
                 <div className="overflow-x-auto">
                     <table className="table-auto bg-white w-full border-collapse">
                         <thead>

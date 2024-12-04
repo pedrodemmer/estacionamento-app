@@ -56,7 +56,6 @@ export default function Vaga() {
           const data = await response.json();
           setVeiculos(data);
   
-          // Seleciona automaticamente o veículo "Uno" se estiver disponível
           const uno = data.find((veiculo) => veiculo.apelido === "Uno");
           if (uno) {
             setVeiculoSelecionado(uno.id);

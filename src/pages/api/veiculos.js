@@ -5,24 +5,37 @@ const SECRET_KEY = "secreta";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-    const { usuario_id } = req.query;
-
-    if (!usuario_id) {
-      return res.status(400).json({ error: "Usuário não especificado" });
-    }
+    const { usuario_id, id } = req.query;
 
     try {
-      const query = `
-        SELECT id, placa, apelido 
-        FROM mydb.veiculo 
-        WHERE usuario_id = $1
-      `;
-      const result = await pool.query(query, [usuario_id]);
+      if (id) {
+        const query = `
+          SELECT id, placa, apelido 
+          FROM mydb.veiculo 
+          WHERE id = $1
+        `;
+        const result = await pool.query(query, [id]);
 
-      res.status(200).json(result.rows);
+        if (result.rows.length === 0) {
+          return res.status(404).json({ error: "Veículo não encontrado" });
+        }
+
+        return res.status(200).json(result.rows[0]);
+      } else if (usuario_id) {
+        const query = `
+          SELECT id, placa, apelido 
+          FROM mydb.veiculo 
+          WHERE usuario_id = $1
+        `;
+        const result = await pool.query(query, [usuario_id]);
+
+        return res.status(200).json(result.rows);
+      } else {
+        return res.status(400).json({ error: "Usuário ou ID do veículo não especificado" });
+      }
     } catch (error) {
       console.error("Erro ao buscar veículos:", error);
-      res.status(500).json({ error: "Erro ao buscar veículos" });
+      return res.status(500).json({ error: "Erro ao buscar veículos" });
     }
   } else if (req.method === "POST") {
     const { placa, apelido } = req.body;

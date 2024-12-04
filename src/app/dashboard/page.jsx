@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 
-// Registrar os elementos necessários do Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Dashboard() {
@@ -50,7 +49,6 @@ export default function Dashboard() {
       <div className="w-full max-w-5xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg text-white">
         <h1 className="text-3xl font-bold mb-6 text-center">Dashboard</h1>
 
-        {/* Cards Resumo */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
           <Card
               title="Gastos (R$)"
@@ -62,7 +60,6 @@ export default function Dashboard() {
               value={`${dataFicticia.tempoEstacionado.atual}h`}
               comparison={`Anterior: ${dataFicticia.tempoEstacionado.anterior}h`}
             />
-          {/* Gráfico de Pizza */}
           <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center">
             <h2 className="text-lg text-black font-semibold mb-4 text-center">
               Bairros Mais Estacionados
@@ -71,7 +68,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Gráficos */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           <Chart
             title="Gastos nos Últimos Meses"

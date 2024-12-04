@@ -14,21 +14,21 @@ export default function EditVehicle() {
   const [placa, setPlaca] = useState("");
   const [apelido, setApelido] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isFetching, setIsFetching] = useState(true); // Indica se os dados ainda estão sendo carregados
+  const [isFetching, setIsFetching] = useState(true);
 
-  // Carregar os dados do veículo
   useEffect(() => {
     const fetchVehicle = async () => {
       try {
         const response = await fetch(`/api/veiculos?id=${vehicleId}`);
         if (!response.ok) {
-          const data = await response.json();
-          console.log(data.json());
+          const errorData = await response.json();
+          console.error("Erro ao buscar veículo:", errorData);
           throw new Error("Erro ao buscar veículo");
         }
+  
         const data = await response.json();
-        setPlaca(data.placa);
-        setApelido(data.apelido);
+        setPlaca(data.placa || "");
+        setApelido(data.apelido || "");
       } catch (error) {
         console.error("Erro ao carregar veículo:", error);
         alert("Erro ao carregar dados do veículo.");
@@ -36,11 +36,10 @@ export default function EditVehicle() {
         setIsFetching(false);
       }
     };
-
+  
     if (vehicleId) fetchVehicle();
-  }, [vehicleId]);
+  }, [vehicleId]);  
 
-  // Atualizar o veículo
   const handleUpdate = async () => {
     if (!placa || !apelido) {
       alert("Placa e Apelido são obrigatórios!");
@@ -91,13 +90,13 @@ export default function EditVehicle() {
           <Input
             placeholder="Placa do Veículo"
             value={placa}
-            maxLength={7} // Limitação para 7 caracteres
+            maxLength={7}
             onChange={(e) => setPlaca(e.target.value)}
           />
           <Input
             placeholder="Apelido do Veículo"
             value={apelido}
-            maxLength={45} // Limitação para 45 caracteres
+            maxLength={45}
             onChange={(e) => setApelido(e.target.value)}
           />
           <div className="flex items-center justify-center mb-6 gap-4">
@@ -112,7 +111,7 @@ export default function EditVehicle() {
               id="cancel-button"
               label="Cancelar"
               color="bg-red-600"
-              href="/veiculos"
+              onClick={() => router.replace("/veiculos")}
             />
           </div>
         </div>

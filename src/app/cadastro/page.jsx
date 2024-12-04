@@ -13,9 +13,8 @@ const RegistroPage = () => {
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [cpf, setCpf] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter(); // Hook para redirecionamento
+  const router = useRouter();
 
-  // Validação das senhas
   const validatePassword = () => {
     const senhaValida = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     return senhaValida.test(senha) && senha === confirmarSenha;

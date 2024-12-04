@@ -1,7 +1,7 @@
 "use client";
 import 'tailwindcss/tailwind.css'; 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Importação para navegação
+import { useRouter } from "next/navigation";
 import { Dropdown1 } from "@/components/Dropdown/content";
 import dotenv from "dotenv";
 import Input from '@/components/Input/content';
@@ -13,7 +13,7 @@ export default function Home() {
   const [vagaData, setVagaData] = useState(null);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter(); // Para redirecionar
+  const router = useRouter();
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -42,15 +42,13 @@ export default function Home() {
     }
   };
 
-  // Função para redirecionar para a página de tarifas
   const handleSearch = () => {
     if (number.trim() !== "" && vagaData && vagaData.status) {
-      router.push(`/vaga?numero=${number}`); // Redireciona com query string apenas se a vaga estiver disponível
+      router.push(`/vaga?numero=${number}`);
     } else {
-      // Se a vaga estiver ocupada, mostra a mensagem de erro por 2 segundos
       setError("Vaga ocupada.");
       setTimeout(() => {
-        setError("");  // Limpa a mensagem de erro após 2 segundos
+        setError("");
       }, 2000);
     }
   };
@@ -78,16 +76,14 @@ export default function Home() {
             error={error}
           />
 
-          {/* Exibição de erro */}
           {error && <p className="text-red-500 mt-2">{error}</p>}
 
-          {/* Dropdown que aparece abaixo do input, centralizado */}
           {isDropdownVisible && vagaData && (
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-full max-w-xs mt-2 z-10">
               <Dropdown1
                 disponibilidade={vagaData.status ? "Disponível" : "Ocupado"}
                 endereco={vagaData.endereco}
-                handleSearch={handleSearch} // Passando a função como prop
+                handleSearch={handleSearch}
               />
             </div>
           )}
