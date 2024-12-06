@@ -1,20 +1,22 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Button from "@/components/Button/content";
-import jwt from 'jsonwebtoken'; 
+import jwt from "jsonwebtoken";
 import { useRouter } from "next/navigation";
+import PaymentPopup from "@/components/PaymentPopup/content";
 
 export default function Vaga() {
   const searchParams = useSearchParams();
-  const numero = searchParams.get("numero"); 
+  const numero = searchParams.get("numero");
   const [vagaData, setVagaData] = useState(null);
   const [preco, setPreco] = useState("R$ 5,00");
-  const [valoresId, setValoresId] = useState(1); 
+  const [valoresId, setValoresId] = useState(1);
   const [loading, setLoading] = useState(false);
   const [veiculos, setVeiculos] = useState([]);
   const [veiculoSelecionado, setVeiculoSelecionado] = useState(null);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -44,18 +46,18 @@ export default function Vaga() {
           console.error("Token não encontrado");
           return;
         }
-  
+
         const response = await fetch(`/api/veiculo`, {
-          method: "GET", 
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         if (response.ok) {
           const data = await response.json();
           setVeiculos(data);
-  
+
           const uno = data.find((veiculo) => veiculo.apelido === "Uno");
           if (uno) {
             setVeiculoSelecionado(uno.id);
@@ -67,9 +69,9 @@ export default function Vaga() {
         console.error("Erro ao buscar veículos:", err);
       }
     };
-  
+
     fetchVeiculos();
-  }, []);  
+  }, []);
 
   const handleTempoChange = (e) => {
     const valor = e.target.value;
@@ -101,20 +103,27 @@ export default function Vaga() {
       return;
     }
 
-    const veiculoSelecionadoData = veiculos.find(veiculo => veiculo.id === parseInt(veiculoSelecionado));
+    setShowPaymentPopup(true);
+  };
+
+  const handlePaymentConfirm = async (paymentDetails) => {
+    const veiculoSelecionadoData = veiculos.find(
+      (veiculo) => veiculo.id === parseInt(veiculoSelecionado)
+    );
 
     const token = localStorage.getItem("token");
-    const decodedToken = jwt.decode(token); 
-    const userId = decodedToken?.sub;  
-  
+    const decodedToken = jwt.decode(token);
+    const userId = decodedToken?.sub;
+
     const data = {
-      apelido: veiculoSelecionadoData?.apelido, 
+      apelido: veiculoSelecionadoData?.apelido,
       vaga_id: vagaData.id,
       valores_id: valoresId,
-      usuario_id: userId, 
+      usuario_id: userId,
       data: new Date().toISOString(),
+      pagamento: paymentDetails,
     };
-  
+
     setLoading(true);
     try {
       const response = await fetch("/api/salvar-registro", {
@@ -124,11 +133,12 @@ export default function Vaga() {
         },
         body: JSON.stringify(data),
       });
-  
+
       if (response.ok) {
         const result = await response.json();
         alert("Registro salvo com sucesso!");
         console.log("Registro salvo:", result);
+        setShowPaymentPopup(false);
         router.push("/");
       } else {
         alert("Erro ao salvar o registro.");
@@ -144,7 +154,9 @@ export default function Vaga() {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
       <div className="w-full max-w-2xl bg-gray-800 shadow-lg rounded-lg p-6">
-        <h1 className="text-3xl font-bold text-white text-center mb-6">Detalhes da Vaga</h1>
+        <h1 className="text-3xl font-bold text-white text-center mb-6">
+          Detalhes da Vaga
+        </h1>
         <table className="table-auto bg-white w-full border-collapse rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-gray-200">
@@ -155,21 +167,29 @@ export default function Vaga() {
           <tbody>
             <tr className="border-t">
               <td className="p-3 text-gray-700 font-medium">Número da Vaga</td>
-              <td className="p-3 text-gray-700">{vagaData?.numero || "Carregando..."}</td>
+              <td className="p-3 text-gray-700">
+                {vagaData?.numero || "Carregando..."}
+              </td>
             </tr>
             <tr className="border-t">
               <td className="p-3 text-gray-700 font-medium">Endereço</td>
-              <td className="p-3 text-gray-700">{vagaData?.endereco || "Carregando..."}</td>
+              <td className="p-3 text-gray-700">
+                {vagaData?.endereco || "Carregando..."}
+              </td>
             </tr>
             <tr className="border-t">
-              <td className="p-3 text-gray-700 font-medium">Selecione o Carro</td>
+              <td className="p-3 text-gray-700 font-medium">
+                Selecione o Carro
+              </td>
               <td className="p-3">
-                <select
+                <select id="veiculo"
                   value={veiculoSelecionado || ""}
                   onChange={(e) => setVeiculoSelecionado(e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-green-500 focus:outline-none"
                 >
-                  <option value="" disabled>Escolha um veículo</option>
+                  <option value="" disabled>
+                    Escolha um veículo
+                  </option>
                   {veiculos.map((veiculo) => (
                     <option key={veiculo.id} value={veiculo.id}>
                       {veiculo.apelido}
@@ -179,7 +199,9 @@ export default function Vaga() {
               </td>
             </tr>
             <tr className="border-t">
-              <td className="p-3 text-gray-700 font-medium">Selecione o Tempo</td>
+              <td className="p-3 text-gray-700 font-medium">
+                Selecione o Tempo
+              </td>
               <td className="p-3">
                 <select
                   defaultValue="30m"
@@ -200,9 +222,21 @@ export default function Vaga() {
           </tbody>
         </table>
         <div className="flex justify-center mt-6">
-          <Button label="Salvar" color="bg-green-500" onClick={salvarRegistro} loading={loading} />
+          <Button
+            id="confirm-button"
+            label="Selecionar"
+            color="bg-green-500"
+            onClick={salvarRegistro}
+            loading={loading}
+          />
         </div>
       </div>
+      {showPaymentPopup && (
+        <PaymentPopup
+          onConfirm={handlePaymentConfirm}
+          onCancel={() => setShowPaymentPopup(false)}
+        />
+      )}
     </div>
   );
 }

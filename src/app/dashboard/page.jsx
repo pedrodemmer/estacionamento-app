@@ -2,6 +2,7 @@
 
 import Chart from "@/components/Chart/content";
 import Card from "@/components/Card/content";
+import BackButton from "@/components/BackButton/content";
 import { Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -47,7 +48,10 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen pt-16 sm:pt-20 bg-gray-100 px-4 sm:px-8">
       <div className="w-full max-w-5xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg text-white">
-        <h1 className="text-3xl font-bold mb-6 text-center">Dashboard</h1>
+        <div className="flex items-baseline justify-center mb-6">
+          <BackButton href="/historico" />
+          <h1 className="text-3xl font-bold text-white ml-4">Dashboard</h1>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
           <Card
