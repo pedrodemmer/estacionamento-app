@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHistory,
-  faCar,
+  faHouse,
   faCarSide,
   faSignInAlt,
 } from "@fortawesome/free-solid-svg-icons";
@@ -55,18 +55,18 @@ export default function Navbar() {
 
       <nav className="sm:hidden fixed bottom-0 left-0 w-full bg-gray-800 text-white flex justify-around py-3 shadow-lg z-50">
         <Link
+          href="/"
+          className="flex flex-col items-center space-y-1 text-white hover:text-gray-300"
+        >
+          <FontAwesomeIcon icon={faHouse} className="w-6 h-6" />
+          <span className="text-xs">Início</span>
+        </Link>
+        <Link
           href="/historico"
           className="flex flex-col items-center space-y-1 text-white hover:text-gray-300"
         >
           <FontAwesomeIcon icon={faHistory} className="w-6 h-6" />
           <span className="text-xs">Histórico</span>
-        </Link>
-        <Link
-          href="/adicionar-veiculo"
-          className="flex flex-col items-center space-y-1 text-white hover:text-gray-300"
-        >
-          <FontAwesomeIcon icon={faCar} className="w-6 h-6" />
-          <span className="text-xs">Adicionar</span>
         </Link>
         <Link
           href="/veiculos"
