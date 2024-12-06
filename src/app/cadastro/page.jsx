@@ -125,16 +125,6 @@ const RegistroPage = () => {
           </button>
         </form>
 
-        <div className="flex items-center justify-center my-6">
-          <span className="text-gray-500">OU SE REGISTRE COM</span>
-        </div>
-        <button
-          className="w-full p-4 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 transition duration-300"
-        >
-          <FontAwesomeIcon icon={faGithub} className="mr-2" />
-          GitHub
-        </button>
-
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-500">
             Já tem uma conta?{" "}

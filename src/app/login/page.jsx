@@ -76,17 +76,6 @@ const LoginPage = () => {
           </button>
         </form>
 
-        <div className="flex items-center justify-center my-4">
-          <span className="text-gray-500">OU CONTINUE COM</span>
-        </div>
-
-        <button
-          className="w-full p-3 bg-gray-800 text-white font-semibold rounded-md hover:bg-gray-700 transition duration-300"
-        >
-          <FontAwesomeIcon icon={faGithub} className="mr-2" />
-          GitHub
-        </button>
-
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-500">
             Não tem uma conta?{" "}
